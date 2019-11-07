@@ -74,12 +74,18 @@ namespace QuestionServer.Controllers
 
         // POST: api/Answers
         [HttpPost]
-        public async Task<ActionResult<Answer>> PostAnswer(Answer answer)
+        public async Task<ActionResult<AnswerResourceModel>> PostAnswer(AnswerBindingModel answer)
         {
-            _context.Answers.Add(answer);
+            Answer newans = new Answer
+            {
+                Content = answer.Content,
+                CreatedUserID = answer.CreatedUserID,
+                QuestionId = answer.QuestionId
+            };
+            _context.Answers.Add(newans);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAnswer", new { id = answer.AnswerId }, answer);
+            return CreatedAtAction("GetAnswer", new { id = newans.AnswerId }, answer);
         }
 
         // DELETE: api/Answers/5

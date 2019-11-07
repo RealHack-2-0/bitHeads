@@ -5,13 +5,15 @@
 }
 
 <html lang="en">
+
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lumen/bootstrap.min.css" crossorigin="anonymous">
 
     <title>Question</title>
 </head>
@@ -19,13 +21,15 @@
 
     <main role="main" class="container">
 
+
+
         <div class="jumbotron">
             <h1>@Model.QuestionDetail.Title</h1>
             <p class="lead">
                 @Model.QuestionDetail.Content
             </p>
-            <a class="btn btn-lg btn-primary" href="../../components/navbar/" role="button">@Model.QuestionDetail.UpvoteCount</a>
-            <a class="btn btn-lg btn-danger" href="../../components/navbar/" role="button">@Model.QuestionDetail.DownvoteCount</a>
+            <a class="btn btn-lg btn-success" asp-action="UpVote" asp-route-id=@Model.QuestionDetail.QuestionId role="button"> ^ @Model.QuestionDetail.UpvoteCount</a>
+            <a class="btn btn-lg btn-danger" asp-action="DownVote" asp-route-id=@Model.QuestionDetail.QuestionId role="button"> v @Model.QuestionDetail.DownvoteCount</a>
         </div>
 
 
@@ -38,38 +42,43 @@
 
         </form>
 
-        @if(Model.QuestionDetail.Answers.Count==0){
-        <div class="jumbotron">
-            <h1>No Answers Yet</h1>
-            <p class="lead">
-                Be the first one to answer
-            </p>
+        @if (Model.QuestionDetail.Answers.Count == 0)
+        {
+            <div class="jumbotron">
+                <h1>No Answers Yet</h1>
+                <p class="lead">
+                    Be the first one to answer
+                </p>
 
-        </div>
-            }
+            </div>
+        }
 
-        @if(Model.QuestionDetail.isAnswered){
-        <div class="jumbotron">
-            <h1>Selected Answer</h1>
-            <p class="lead">
-                @Model.QuestionDetail.AcceptedAnswer.Content
-            </p>
+        @if (Model.QuestionDetail.isAnswered)
+        {
+            <div class="jumbotron bg-success">
+                <h1>Selected Answer</h1>
+                <p class="lead">
+                    @Model.QuestionDetail.AcceptedAnswer.Content
+                </p>
 
-        </div>
-            }
+            </div>
+        }
 
 
 
         @foreach (var data in Model.QuestionDetail.Answers)
-            {
-        <div class="jumbotron">
-            <h1>Answer</h1>
-            <p class="lead">
-                @data.Content
-            </p>
-            <a class="btn btn-lg btn-primary" href="../../components/navbar/" role="button">Select as a Answer</a>
-        </div>
-            }
+        {
+            <div class="jumbotron">
+                <h1>Answer</h1>
+                <p class="lead">
+                    @data.Content
+                </p>
+                @if (!Model.QuestionDetail.isAnswered)
+                {
+                    <a class="btn btn-primary"  asp-action="SelectAnswer" asp-route-qid=@Model.QuestionDetail.QuestionId asp-route-aid=@data.AnswerId role="button">Select as a Answer</a>
+                }
+            </div>
+        }
 
 
     </main>

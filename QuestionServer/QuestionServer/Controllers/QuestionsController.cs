@@ -23,16 +23,16 @@ namespace QuestionServer.Controllers
 
         // GET: api/Questions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuestionResourceModel>>> GetQuestions()
+        public async Task<ActionResult<QuestionResourceModel>> GetQuestions()
         {
             var allQuestions =  await _context.Questions.ToListAsync();
             List<QuestionResourceModel> questionlist = new List<QuestionResourceModel>();
             foreach (var question in allQuestions)
             {
-                var thisquestion = new QuestionResourceModel { QuestionId = question.QuestionId, Title = question.Title, Content = question.Content, UpvoteCount =question.UpvoteCount, DownvoteCount =question.DownvoteCount };
+                var thisquestion = new QuestionResourceModel { QuestionId = question.QuestionId, Title = question.Title, Content = question.Content, UpvoteCount =question.UpvoteCount, DownvoteCount =question.DownvoteCount, Tag =question.Tag };
                 questionlist.Add(thisquestion);
             }
-            return questionlist;
+            return Ok(new { data =  questionlist});
         }
 
         // GET: api/Questions/5
@@ -69,7 +69,8 @@ namespace QuestionServer.Controllers
                 AcceptedAnswer = AcceptedAnswer,
                 Answers = answerlist,
                 UpvoteCount =question.UpvoteCount,
-                DownvoteCount =question.DownvoteCount
+                DownvoteCount =question.DownvoteCount,
+                Tag = question.Tag
             }; 
 
             return return_question;
@@ -123,7 +124,8 @@ namespace QuestionServer.Controllers
             {
                 Title = question.Title,
                 Content = question.Content,
-                CreatedUserID = question.CreatedUserID
+                CreatedUserID = question.CreatedUserID,
+                Tag = question.Tag
             };
 
             _context.Questions.Add(newquestion);
@@ -157,7 +159,7 @@ namespace QuestionServer.Controllers
             return _context.Questions.Any(e => e.QuestionId == id);
         }
 
-        [HttpPut("acceptansewr/{id}")]
+        [HttpGet("acceptanswer")]
         public async Task<IActionResult> AcceptAnswer(Guid questionId, Guid answerId)
         {
             if (questionId == null || answerId==null)
@@ -166,7 +168,7 @@ namespace QuestionServer.Controllers
             }
 
             var question = await _context.Questions.FindAsync(questionId);
-            var answer = await _context.Questions.FindAsync(answerId);
+            var answer = await _context.Answers.FindAsync(answerId);
 
             if (question == null || answer == null)
             {
@@ -196,7 +198,7 @@ namespace QuestionServer.Controllers
             return NoContent();
         }
 
-        [HttpPut("upvote/{id}")]
+        [HttpGet("upvote")]
         public async Task<IActionResult> Upvote(Guid id)
         {
             if (id == null)
@@ -233,7 +235,7 @@ namespace QuestionServer.Controllers
             return Ok();
         }
 
-        [HttpPut("downvote/{id}")]
+        [HttpGet("downvote")]
         public async Task<IActionResult> Downvote(Guid id)
         {
             if (id == null)
@@ -248,7 +250,7 @@ namespace QuestionServer.Controllers
                 return NotFound();
             }
 
-            question.UpvoteCount = question.UpvoteCount - 1;
+            question.DownvoteCount = question.DownvoteCount + 1;
             _context.Entry(question).State = EntityState.Modified;
 
             try
@@ -269,5 +271,50 @@ namespace QuestionServer.Controllers
 
             return Ok();
         }
+
+        [HttpGet("public")]
+        public ActionResult<QuestionResourceModel> Get(String token, String tags)
+        {
+            if (token == null)
+            {
+                return Unauthorized();
+
+            }
+            List<String> Tags_ = tags.Split(",").ToList();
+            List<QuestionResourceModel> questionlist = new List<QuestionResourceModel>();
+            var questions = _context.Questions.Where(i => Tags_.Contains(i.Tag)).ToList();
+            foreach (var question in questions)
+            {
+                var thisquestion = new QuestionResourceModel { QuestionId = question.QuestionId, Title = question.Title, Content = question.Content, UpvoteCount = question.UpvoteCount, DownvoteCount = question.DownvoteCount, Tag = question.Tag };
+                questionlist.Add(thisquestion);
+            }
+            return Ok(new { data = questionlist });
+        }
+
+
+
+        // POST: api/
+        [HttpPost("public")]
+        public async Task<ActionResult<Question>> PostQuestion(String token, QuestionBindingModel question)
+        {
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+
+            Question newquestion = new Question
+            {
+                Title = question.Title,
+                Content = question.Content,
+                CreatedUserID = question.CreatedUserID,
+                Tag = question.Tag
+            };
+
+            _context.Questions.Add(newquestion);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetQuestion", new { id = newquestion.QuestionId }, question);
+        }
+
     }
 }

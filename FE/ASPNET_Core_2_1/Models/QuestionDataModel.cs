@@ -7,7 +7,7 @@ namespace ASPNET_Core_2_1.Models
 {
     public class QuestionDataModel
     {
-        public Guid QuestionId { get; set; }
+        public String QuestionId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public Guid CreatedUserID { get; set; }

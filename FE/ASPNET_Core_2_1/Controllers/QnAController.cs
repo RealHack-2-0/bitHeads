@@ -34,7 +34,13 @@ namespace ASPNET_Core_2_1.Controllers
             var task = client.SendAsync(request);
             var str = await task.Result.Content.ReadAsStringAsync();
             QuestionResponse arr = JsonConvert.DeserializeObject<QuestionResponse>(str);
-            return View(arr);
+            QuestionDetailandAndQuestion obj = new QuestionDetailandAndQuestion
+            {
+                QuestionList = arr,
+                Title = "",
+                Content= ""
+            };
+            return View(obj);
         }
 
         public async Task<IActionResult> QuestionDetail(String id)
@@ -73,13 +79,20 @@ namespace ASPNET_Core_2_1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateQuestion(QuestionModel model)
+        public async Task<IActionResult> CreateQuestion(QuestionDetailandAndQuestion model)
         {
-            model.CreatedUserID = "6e2e6aa0-8392-4892-a177-f1d073355cdd";
+            var datamodel = new QuestionModel
+            {
+                CreatedUserID = "6e2e6aa0-8392-4892-a177-f1d073355cdd",
+                Title = model.Title,
+                Content =model.Content,
+                Tag = model.Tag
+            };
+
             string requestStr = "http://localhost:19845/api/questions/";
             var request = new HttpRequestMessage(HttpMethod.Post,
             requestStr);
-            request.Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(JsonConvert.SerializeObject(datamodel), Encoding.UTF8, "application/json");
 
             var client = _clientFactory.CreateClient();
 
@@ -129,6 +142,55 @@ namespace ASPNET_Core_2_1.Controllers
             }
 
 
+        }
+
+        public async Task<IActionResult> UpVote(String id)
+        {
+
+            string requestStr = "http://localhost:19845/api/questions/upvote?id="+id;
+            var request = new HttpRequestMessage(HttpMethod.Get,
+            requestStr);
+
+            
+
+            var client = _clientFactory.CreateClient();
+
+            var task = client.SendAsync(request);
+            var str = await task.Result.Content.ReadAsStringAsync();
+
+            return RedirectToAction("QuestionDetail", "QnA", new { id = id });
+            //return Ok(str);
+        }
+
+        public async Task<IActionResult> DownVote(String id)
+        {
+
+            string requestStr = "http://localhost:19845/api/questions/downvote?id="+id;
+            var request = new HttpRequestMessage(HttpMethod.Get,
+            requestStr);
+       
+            var client = _clientFactory.CreateClient();
+
+            var task = client.SendAsync(request);
+            var str = await task.Result.Content.ReadAsStringAsync();
+
+            return RedirectToAction("QuestionDetail", "QnA", new { id = id });
+        }
+
+        public async Task<IActionResult> SelectAnswer(String qid,String aid)
+        {http://localhost:19845/api/values
+
+            string requestStr = "http://localhost:19845/api/questions/acceptanswer?questionId=" + qid + "&answerId=" + aid;
+            var request = new HttpRequestMessage(HttpMethod.Get,
+            requestStr);
+
+            var client = _clientFactory.CreateClient();
+
+            var task = client.SendAsync(request);
+            var str = await task.Result.Content.ReadAsStringAsync();
+
+            return RedirectToAction("QuestionDetail", "QnA", new { id = qid });
+            //return Ok(requestStr);
         }
 
 

@@ -56,7 +56,7 @@ namespace ASPNET_Core_2_1.Controllers
             var task = client.SendAsync(request);
             var str = await task.Result.Content.ReadAsStringAsync();
 
-            return Ok(str);
+            return RedirectToAction("QuestionList", "QnA");
         }
     }
 }
