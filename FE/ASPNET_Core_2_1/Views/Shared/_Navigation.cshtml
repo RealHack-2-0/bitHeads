@@ -1,0 +1,42 @@
+﻿<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <img alt="image" class="rounded-circle" src="~/Images/profile_small.jpg" />
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="block m-t-xs font-bold">Gershom Senevirahtne</span>
+                        <span class="text-muted text-xs block">User <b class="caret"></b></span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
+                        <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Login", "Pages")">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    QnA+
+                </div>
+            </li>
+            <li class="@Html.IsSelected(controller: "Environment")">
+                <a href="@Url.Action("Index", "Environment")"><i class="fa fa-cube"></i> <span class="nav-label" data-i18n="nav.dashboard">Questions</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Dashboards", cssClass: "in")">
+                    <li class="@Html.IsSelected(action: "MyEnvironments")"><a href="@Url.Action("MyEnvironments", "Environment")">All Questions</a></li>
+                    <li class="@Html.IsSelected(action: "CreateEnvironment")"><a href="@Url.Action("CreateEnvironment", "Environment")">My Questions</a></li>
+
+                </ul>
+            </li>
+            <li class="@Html.IsSelected(controller: "Library")">
+                <a href="@Url.Action("Index", "Library")"><i class="fa fa-book"></i> <span class="nav-label" data-i18n="nav.layouts">New Question</span> </a>
+            </li>
+            <li class="@Html.IsSelected(controller: "Settings")">
+                <a href="@Url.Action("Index", "Settings")"><i class="fa fa-cog"></i> <span class="nav-label" data-i18n="nav.layouts">Settings</span> </a>
+            </li>
+            <li class="@Html.IsSelected(controller: "Contact")">
+                <a href="@Url.Action("Index", "Contact")"><i class="fa fa-phone-square"></i> <span class="nav-label" data-i18n="nav.layouts">Contact</span> </a>
+            </li>
+
+           
+        </ul>
+    </div>
+</nav>
