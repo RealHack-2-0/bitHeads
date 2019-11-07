@@ -1,0 +1,14 @@
+F:\Realhack\new\QuestionServer\QuestionServer\bin\Debug\netcoreapp2.2\QuestionServer.deps.json
+F:\Realhack\new\QuestionServer\QuestionServer\bin\Debug\netcoreapp2.2\QuestionServer.runtimeconfig.json
+F:\Realhack\new\QuestionServer\QuestionServer\bin\Debug\netcoreapp2.2\QuestionServer.runtimeconfig.dev.json
+F:\Realhack\new\QuestionServer\QuestionServer\bin\Debug\netcoreapp2.2\QuestionServer.dll
+F:\Realhack\new\QuestionServer\QuestionServer\bin\Debug\netcoreapp2.2\QuestionServer.pdb
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.csprojAssemblyReference.cache
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.csproj.CoreCompileInputs.cache
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.RazorAssemblyInfo.cache
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.RazorAssemblyInfo.cs
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.AssemblyInfoInputs.cache
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.AssemblyInfo.cs
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.RazorTargetAssemblyInfo.cache
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.dll
+F:\Realhack\new\QuestionServer\QuestionServer\obj\Debug\netcoreapp2.2\QuestionServer.pdb
